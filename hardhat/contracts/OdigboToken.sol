@@ -28,7 +28,7 @@ contract OdigboToken is ERC20, Ownable {
         // total tokens + amount <= 10,000 otherwise revert
         uint256 amountWithDecimals = amount * 10**18;
         require(
-            (totalSupply() + amountWithDecimals) <= maxTotalSupply,
+            (totalSupply() + amountWithDecimals) <= maxTokenSupply,
             "Exceeds the max total supply available."
         );
         // total amount mintable should not be more than 1000
