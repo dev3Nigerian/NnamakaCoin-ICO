@@ -54,14 +54,15 @@ contract OdigboToken is ERC20, Ownable {
             uint256 tokenId = OdigboNFT.tokenOfOwnerByIndex(sender, i);
             if (!tokenIdsClaimed[tokenId]) {
                 amount += 1;
-                tokenIdsClaimed[tokenId] = true
+                tokenIdsClaimed[tokenId] = true;
             }
         }
-        
+
         require(amount > 0, "You have claimed all the tokens");
         _mint(msg.sender, amount * tokensPerNFT);
     }
-    
+
     receive() external payable {}
+
     fallback() external payable {}
 }
