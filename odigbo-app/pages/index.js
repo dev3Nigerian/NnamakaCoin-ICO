@@ -1,7 +1,7 @@
 import { BigNumber, Contract, providers, utils } from "ethers";
 import Head from "next/head";
 import Image from "next/image";
-import jpg from "..public/0.jpg";
+import Odigbo from "../public/0.jpg";
 import React, { useEffect, useRef, useState } from "react";
 import Web3Modal from "web3modal";
 import {
@@ -63,7 +63,7 @@ export default function Home() {
             amount++;
           }
         }
-        setTokensToBeClaimed(BigNUmber.from(amount));
+        setTokensToBeClaimed(BigNumber.from(amount));
       }
     } catch (err) {
       console.error(err);
@@ -107,7 +107,7 @@ export default function Home() {
       setLoading(true);
       await tx.wait(true);
       setLoading(false);
-      window.alert("Successfully minted Odigbo TOken");
+      window.alert("Successfully minted Odigbo Token");
       await getBalanceOfOdigboTokens();
       await getTotalTokensMinted();
       await getTokensToBeClaimed();
@@ -262,8 +262,8 @@ export default function Home() {
             </button>
           )}
         </div>
-        <div>
-          <Image className={styles.image} src={jpg} alt="Picture of Token"></Image>
+        <div className={styles.image}>
+          <Image src={Odigbo} alt="Picture of Token" width={500} height={400} />
         </div>
       </div>
 
