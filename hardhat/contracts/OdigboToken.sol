@@ -11,7 +11,7 @@ contract OdigboToken is ERC20, Ownable {
     // Amount of token each user receives per NFT
     uint256 public constant tokensPerNFT = 10 * 10**18;
     // Total max supply for Odigbo token
-    uint256 public constant maxTokenSupply = 10000 * 10**18;
+    uint256 public constant maxTotalSupply = 10000 * 10**18;
     // OdigboNFT contract instance
     IOdigbo OdigboNFT;
     // mapping to keep track of which tokenIds have been claimed
@@ -28,7 +28,7 @@ contract OdigboToken is ERC20, Ownable {
         // total tokens + amount <= 10,000 otherwise revert
         uint256 amountWithDecimals = amount * 10**18;
         require(
-            (totalSupply() + amountWithDecimals) <= maxTokenSupply,
+            (totalSupply() + amountWithDecimals) <= maxTotalSupply,
             "Exceeds the max total supply available."
         );
         // total amount mintable should not be more than 1000
