@@ -24,6 +24,8 @@ export default function Home() {
   const [balanceOfOdigboTokens, setBalanceOfOdigboTokens] = useState(zero);
   // amount of token ussr wants to mint
   const [tokenAmount, setTokenAmount] = useState(zero);
+  //check is currently connected user is owner
+  const [isOwner, setIsOwner] = useState(false)
 
   const [tokensMinted, setTokensMinted] = useState(zero);
   const web3ModalRef = useRef();
@@ -154,6 +156,43 @@ export default function Home() {
     }
   };
 
+  const withdrawCoins = async () => {
+    try {
+      const signer = await getProviderOrSigner(true);
+      const tokenContract = new Contract(
+        TOKEN_CONTRACT_ADDRESS,
+        TOKEN_CONTRACT_ABI,
+        signer
+      );
+
+      const tx = await tokenContract.withdraw();
+      setLoading(true);
+      await tx.wait();
+      setLoading(false);
+      await getOwner();
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  const getOwner = async () => {
+    try {
+      const provider = await getProviderOrSigner();
+      const nftContract = new Contract(TOKEN_CONTRACT_ADDRESS, TOKEN_CONTRACT_ABI, provider);
+      // call the owner function from the contract
+      const _owner = await tokenContract.owner();
+      // we get signer to extract address of currently connected Metamask account
+      const signer = await getProviderOrSigner(true);
+      // Get the address associated to signer which is connected to Metamask
+      const address = await signer.getAddress();
+      if (address.toLowerCase() === _owner.toLowerCase()) {
+        setIsOwner(true);
+      }
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
   const getProviderOrSigner = async (needSigner = false) => {
     const provider = await web3ModalRef.current.connect();
     const web3Provider = new providers.Web3Provider(provider);
@@ -199,6 +238,15 @@ export default function Home() {
       return (
         <div>
           <button className={styles.button}></button>
+        </div>
+      );
+    }
+    if (walletConnected && isOwner) {
+      return (
+        <div>
+          <button className={styles.button} onClick={withdrawCoins}>
+            Withdraw Coins
+          </button>
         </div>
       );
     }
