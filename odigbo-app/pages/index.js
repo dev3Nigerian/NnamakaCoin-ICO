@@ -229,6 +229,7 @@ export default function Home() {
       getTotalTokensMinted();
       getBalanceOfOdigboTokens();
       getTokensToBeClaimed();
+      withdrawCoins();
     }
   }, [walletConnected]);
 
@@ -244,7 +245,7 @@ export default function Home() {
     if (walletConnected && isOwner) {
       return (
         <div>
-          <button className={styles.button} onClick={withdrawCoins}>
+          <button className={styles.button1} onClick={withdrawCoins}>
             Withdraw Coins
           </button>
         </div>
